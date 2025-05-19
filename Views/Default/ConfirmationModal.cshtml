@@ -1,0 +1,39 @@
+﻿@{
+    string parentContainer = ViewBag.ControlId;
+    string confirmDialogWindow = "confirm-dialog-window-" + ViewBag.ControlId;
+    string confirmDialogTitleText = "confirm-dialog-titletext-" + ViewBag.ControlId;
+    string confirmDialogMsgText = "confirm-dialog-textmsg-" + ViewBag.ControlId;
+    string dialogOkButtonName = "confirm-dialog-ok-button-" + ViewBag.ControlId;
+    string dialogCancelButtonName = "confirm-dialog-cancel-button-" + ViewBag.ControlId;
+    string dialogNoButtonName = "confirm-dialog-no-button-" + ViewBag.ControlId;
+}
+<div id="@parentContainer">
+
+    <!-- Modal -->
+    <div class="modal fade" id=@confirmDialogWindow data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id=@confirmDialogTitleText></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p  id=@confirmDialogMsgText></p>
+                </div>
+                <div class="modal-footer" >
+                    <div style="font-size:small;">
+                        <button type="button" class="btn btn-info" data-dismiss="modal" id=@dialogOkButtonName onclick="onConfirmationDialogOkButtonClick(this)" data-parentcontainerid=@parentContainer>Ok</button>
+                        <button type="button" class="btn btn-light" data-dismiss="modal" id=@dialogCancelButtonName onclick="onConfirmationDialogCancelButtonClick(this)" data-parentcontainerid=@parentContainer>Cancel</button>
+                        <button type="button" class="btn btn-light" data-dismiss="modal" id=@dialogNoButtonName onclick="onConfirmationDialogNoButtonClick(this)" data-parentcontainerid=@parentContainer>No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<ReqIFMappingTemplate xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <TemplateName>basic</TemplateName>
+  <TemplateVersion>0.1.0</TemplateVersion>
+  <TypeMaps>
+    <TypeMap>
+      <WITypeName>Feature</WITypeName>
+      <ReqIFTypeName>System Requirement</ReqIFTypeName>
+      <EnumFieldMaps>
+        <EnumFieldMap>
+          <WIFieldName>System.Title</WIFieldName>
+          <ReqIFFieldName>ReqIF.ChapterName</ReqIFFieldName>
+          <FieldType>String</FieldType>
+          <ReqIFFieldType>String</ReqIFFieldType>
+        </EnumFieldMap>
+        <EnumFieldMap>
+          <WIFieldName>System.Description</WIFieldName>
+          <ReqIFFieldName>ReqIF.Text</ReqIFFieldName>
+          <FieldType>RichText</FieldType>
+          <ReqIFFieldType>RichText</ReqIFFieldType>
+        </EnumFieldMap>
+      </EnumFieldMaps>
+    </TypeMap>
+    <TypeMap>
+      <WITypeName>Issue</WITypeName>
+      <ReqIFTypeName>Artifact</ReqIFTypeName>
+      <EnumFieldMaps>
+        <EnumFieldMap>
+          <WIFieldName>System.Title</WIFieldName>
+          <ReqIFFieldName>ReqIF.Name</ReqIFFieldName>
+          <FieldType>String</FieldType>
+          <ReqIFFieldType>RichText</ReqIFFieldType>
+        </EnumFieldMap>
+        <EnumFieldMap>
+          <WIFieldName>System.Description</WIFieldName>
+          <ReqIFFieldName>ReqIF.Text</ReqIFFieldName>
+          <FieldType>RichText</FieldType>
+          <ReqIFFieldType>RichText</ReqIFFieldType>
+        </EnumFieldMap>
+      </EnumFieldMaps>
+    </TypeMap>
+  </TypeMaps>
+</ReqIFMappingTemplate>

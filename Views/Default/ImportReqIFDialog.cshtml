@@ -1,0 +1,179 @@
+﻿@using System.Web.Mvc.Html
+@using Kendo.Mvc.UI
+@using System.Configuration
+
+@{
+    Layout = null;
+    string adoParamModel = null;
+    HttpPostedFileBase fileobject;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ImportReqIFDialog</title>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/vsssdk")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/Kendo/KendoScripts")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Kendo/kendo.metro")
+    @Styles.Render("~/Content/Kendo/kendo.common")
+    @Styles.Render("~/Content/Kendo/kendo.rtl")
+    @Styles.Render("~/Content/Kendo/kendo.dataviz.metro")
+
+    <script src="~/Scripts/jQuery/jquery.fileDownload.min.js"></script>
+
+    <script>
+        var serverUrl = '@Request.Url.Scheme://@Request.Url.Authority';
+
+        @{
+            bool filePath = false;
+            if (ViewBag.FilePath != null )
+            {
+                filePath = ViewBag.FilePath;
+            }
+        }
+        var reqIfImportFilePath = @Json.Encode(filePath);
+
+
+    </script>
+
+    <script src="~/Scripts/License/license.js"></script>
+    <script src="~/Scripts/ConfirmationModalPlugins.js"></script>
+    <script src="~/Scripts/Default/ImportReqIFDialog.js"></script>
+
+    <link rel="stylesheet" href="~/Content/License/license-style.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/reqIF-style.css" type="text/css" />
+
+    <style>
+        .k-upload-button {
+            background-color: rgb(0, 120, 212);
+            color: white;
+        }
+    </style>
+
+</head>
+<body>
+
+
+    <div class="container" style="margin-left: 0; margin-right: 0; max-width: none; display:none;" id="main-div">
+
+        @{
+            Html.RenderAction("LicenseActivationDialog", "License", new { callingViewId = "ImportReqIFDialog" });
+        }
+
+        <div id="reqIFBridge-ReqIFImport-MainDiv">
+            <div class="row" style="margin-top:2px;">
+
+                <div class="col-sm-5">
+                    <form enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div id="lic-trial-notification" style="display:none;">
+                                    <span style="color:#FF0000;">
+                                        <i style="font-size: smaller;">
+                                            *Only 30 records per transaction are allowed in trial version
+                                        </i>
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <span>
+                                    Please follow below steps:
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top:5px;">
+                            <div class="col-sm-12">
+                                <span>
+
+                                    1. Select and upload the ReqIF specification file, exported from any RM tool supporting ReqIF standard.
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <span><br />All supported ReqIF extensions: (*.reqif,*.reqifz) </span>
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-sm-12">
+                                <div>
+                                    @*Product Backlog Item 32450: Start*@
+                                    <input name="reqIFFile" id="reqIFFile" type="file" title="Select a required ReqIF file to upload" accept=".reqif,.reqifz,.reqifw" />
+                                    @*Product Backlog Item 32450: End*@
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top:10px;">
+                            <div style="margin-top:10px; margin-left:15px">
+                                <span style="color: #008000;">
+                                    <i style="font-size: smaller;" id="indicateFileSelection">
+                                    </i>
+                                    <a href="#" onclick="javascript: ReloadMainPage()" oncontextmenu="return false;">
+                                        <i style="font-size: smaller;" id="reloadPageLink">
+                                        </i>
+                                    </a>
+                                    <i style="font-size: smaller;" id="clearSelection">
+                                    </i>
+                                </span>
+                            </div>
+                            <div class="col-sm-12" style="margin-top:10px;">
+                                <span>2. To configure mapping for ReqIF Import or to view the existing mapping on server, click Configure Mapping link.  </span>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top:5px;">
+                            <div class="col-sm-12">
+
+                                <a href="#" id="expmappinglink" onclick="javascript: ValidateReqIFFile('Connecting to Azure DevOps Services...')"  oncontextmenu="return false;">
+                                    Configure Mapping
+                                </a>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+
+                <div class="col-sm-7">
+                    <img class="img-fluid" src="~/Content/images/ReqIF_Blue.png" alt="ReqIF4Devops">
+                </div>
+
+            </div>
+            <div class="row" style="margin-top:5px;">
+                <div class="col-sm-12">
+                    <input id="importReqIF" class="btn btn-info" value="Import" style="float: left; max-width:100px;" onclick="javascript: validateMappingFile();" />
+
+                    <input id="importClearCacheReqIF" title="This will clear the cache of current project" class="btn btn-light" value="Clear Cache" style="float: left; max-width: 135px; margin-left: 5px;" onclick="javascript: onClearCache();" />
+                </div>
+             
+                 <br />  
+                <div class="col-sm-12" style="margin-top:5px;">
+                    <p id="result" style="line-height: 38px;">
+                    </p>
+                </div>
+                
+        </div>
+
+        </div>
+        <div id="import-confirmation-dialog" data-myval="false"></div>
+    </div>
+</body>
+</html>

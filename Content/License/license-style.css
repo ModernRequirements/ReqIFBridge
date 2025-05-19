@@ -1,0 +1,35 @@
+﻿.reqIF-LicenseDiv {
+    margin-top: 3px;
+    display: none;
+}
+
+.reqIF-LicenseDiv hr {
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+.alert {
+    margin-bottom: 1px;
+    line-height: 30px;
+    padding: 0px 15px;
+    font-weight: 500;
+}
+
+#lic-status-div b, strong {
+    font-weight: 500 !important;
+}
+.lic-upload-button .k-upload-button {
+    background-image: none; /*url(textures/highlight.png);*/
+    background-image: none,-webkit-gradient(linear,left top,left bottom,from(#0078d4),to(#0078d4));
+    background-image: none,-webkit-linear-gradient(top,#0078d4 0,#0078d4 100%);
+    background-image: none,linear-gradient(to bottom,#0078d4 0,#0078d4 100%);
+    border: 1px solid #eee;
+    color: white;
+    padding: 5px 10px;
+ 
+}
+
+    .lic-upload-button .k-upload-button:hover {
+        background: #005ba1 !important;
+        border-color: #005ba1 !important;
+    }

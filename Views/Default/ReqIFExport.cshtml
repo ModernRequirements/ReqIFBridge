@@ -1,0 +1,66 @@
+﻿@using System.Configuration
+@{
+    ViewBag.Title = "ReqIF Export";
+    var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+    var currentProjectMapping = jss.Serialize(ViewBag.MappingJSON);
+    var workItemTypeFieldsData = jss.Serialize(ViewBag.WorkItemTypeFieldsData);
+
+    Layout = null;
+}
+<head>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/Kendo/KendoScripts")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Kendo/bundleKendoStyle")
+    <script src="~/Scripts/jQuery/jquery.fileDownload.min.js"></script>
+    <script>var serverUrl = '@Request.Url.Scheme://@Request.Url.Authority';</script>
+    <script src="~/Scripts/reqIFExport.js"></script>
+    <script src="~/Scripts/ConfirmationModalPlugins.js"></script>
+
+    <script>
+
+
+        var _projectMappingtemplate = JSON.parse('@Html.Raw(currentProjectMapping)');
+        var _workitemfieldDataCollection = JSON.parse('@Html.Raw(workItemTypeFieldsData)');
+        var _currentProjectGuid = '@ViewBag.ProjectGuid';
+        var _adoParams = '@ViewBag.AdoParams';
+
+         var enumValueConfigStr = '@ConfigurationManager.AppSettings.Get("Plugin.EnumValueForExport")';
+
+        var enumValueConfig = (enumValueConfigStr === 'true');
+
+    </script>
+
+    <script src="~/Scripts/Default/ReqIFExportMain.js"></script>
+    <link rel="stylesheet" href="~/Content/reqIFExport.css" />
+    <link rel="stylesheet" href="~/Content/reqIF-style.css" />
+
+
+
+
+</head>
+
+<div class="container" style="margin-left: 15px; margin-right: 0; max-width: none; overflow-x: hidden; border: 0.5px solid #ddd;" id="req-if-export-container-main">
+
+    <h5 style="padding-bottom: 5px; padding-top: 10px;">ReqIF Export Mapping UI</h5>
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="req-if-export-container">
+            </div>
+        </div>
+    </div>
+
+    <div id="lic-status-viewid" data-viewname='@ViewBag.CallingViewId'>
+
+        @*<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="onReqIFImportModalInfoClose();">Close</button>*@
+
+    </div>
+
+
+    <div id="export-plugin-confirmation-dialog" data-myval="false"></div>
+
+
+</div>

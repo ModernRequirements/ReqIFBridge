@@ -1,0 +1,152 @@
+﻿<!-- Modal -->
+@{
+    string licenseType = ViewBag.LicenseType;
+    string licenseStatus = ViewBag.LicenseStatus;
+    //string viewId = ViewBag.ViewId;
+
+    Layout = null;
+}
+
+<head>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/Kendo/KendoScripts")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Kendo/kendo.metro")
+    @Styles.Render("~/Content/Kendo/kendo.common")
+    @Styles.Render("~/Content/Kendo/kendo.rtl")
+    @Styles.Render("~/Content/Kendo/kendo.dataviz.metro")
+
+
+    <script>var serverUrl = '@Request.Url.Scheme://@Request.Url.Authority';</script>
+
+    <script src="~/Scripts/License/license.js"></script>
+    <link rel="stylesheet" href="~/Content/License/license-style.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/reqIF-style.css" type="text/css" />
+
+    <style>
+        #licenseModalInfo .modal-header {
+            display: block;
+            padding: 1rem 1rem;
+            border-bottom: 1px solid #dee2e6;
+            border-top-left-radius: calc(.3rem - 1px);
+            border-top-right-radius: calc(.3rem - 1px);
+        }
+    </style>
+
+</head>
+
+<div class="modal fade" id="licenseModalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title">ReqIF4DevOps</h5>
+                <span class="modal-title"><i style="font-size: smaller;">Build Version: @ViewBag.AssemblyVersion </i> </span>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <h5 class="col modal-title" style="padding-bottom: 10px;margin-left: 8px;">License Status</h5>
+                </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div id="lic-clear-msg" class="alert alert-success" style="display:none;    padding-left: 0.5rem !important;">
+                                    Your License has been cleared. Please wait for a few seconds.
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="lic-status-div" style="margin-left: 8px;margin-bottom: 8px">
+                            @if (ViewBag.ProductActivated && licenseType.ToLower() != "trial")
+                            {
+
+
+                                <div class="row" style="margin-bottom: 5px;">
+                                    <div class="col-sm-12">
+                                        @Html.Raw("Your Product is <b>ACTIVATED</b>.")
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-bottom: 5px;">
+                                    <div class="col-sm-12">
+                                        @Html.Raw("License type is <b>" + licenseType.ToUpper() + "</b>.")
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @if (@Html.Raw(licenseStatus).ToString() != "Permanent")
+                                        {
+
+                                            if (@Html.Raw(licenseStatus).ToString() == "0")
+                                            {
+                                                @Html.Raw("This license will expire today.")
+                                            }
+
+                                            else if (@Html.Raw(licenseStatus).ToString() == "Expired")
+                                            {
+                                                @Html.Raw("Your license has expired.")
+                                            }
+                                            else if (@Html.Raw(licenseStatus).ToString() == "None")
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                @Html.Label("This license will be expired in ") @Html.Raw(licenseStatus + "days.")
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @Html.Raw("License duration is <b>PERMANENT</b>.")
+                                        }
+
+                                    </div>
+                                </div>
+
+                            }
+                            else if (ViewBag.ProductActivated && licenseType.ToLower() == "trial")
+                            {
+
+
+
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <span>You are using a trial version of this product.</span> <br> <br>
+                                        <span style="color:#FF0000" ;>* <i style="font-size: smaller;">only 30 records per transaction are allowed in trial version</i> </span>
+
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div id="lic-status-msg" class="alert alert-warning" style="padding-left: 0.5rem !important;">
+                                            Your product is not activated.
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="modal-footer" id="lic-status-viewid" data-viewname='@ViewBag.CallingViewId'>
+                            @if (ViewBag.ProductActivated)
+                            {
+                                <button type="button" class="btn btn-info" onclick="onBtnClearLicense ();" style="width: auto;">
+                                    Clear License
+                                </button>
+                            }
+                            <button type="button" class="btn btn-light" data-dismiss="modal" onclick="onBtnLicenseStatusClose();">Cancel</button>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+</div>

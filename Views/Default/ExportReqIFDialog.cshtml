@@ -1,0 +1,129 @@
+﻿@using Kendo.Mvc.UI
+@using ReqIFBridge.Models
+
+@{
+    Layout = null;
+    string adoParamModel = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ExportReqIFDialog</title>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/vsssdk")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/Kendo/KendoScripts")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Kendo/kendo.metro")
+    @Styles.Render("~/Content/Kendo/kendo.common")
+    @Styles.Render("~/Content/Kendo/kendo.rtl")
+    @Styles.Render("~/Content/Kendo/kendo.dataviz.metro")
+
+    <script src="~/Scripts/jQuery/jquery.fileDownload.min.js"></script>
+
+    <script>var serverUrl = '@Request.Url.Scheme://@Request.Url.Authority';</script>
+
+    <script src="~/Scripts/License/license.js"></script>
+    <script src="~/Scripts/ConfirmationModalPlugins.js"></script>
+    <script src="~/Scripts/ExportConfirmationPlugin.js"></script>
+
+    <script src="~/Scripts/Default/ExportReqIFDialog.js" ></script>
+    <link rel="stylesheet" href="~/Content/License/license-style.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/reqIF-style.css" type="text/css" />
+
+
+</head>
+
+<body>
+
+    <div class="container" style="margin-left: 0; margin-right: 0; max-width: none; display: none;" id="main-div">
+
+        @{
+            Html.RenderAction("LicenseActivationDialog", "License", new { callingViewId = "ExportReqIFDialog" });
+        }
+
+        <div id="reqIFBridge-ReqIFExport-MainDiv">
+
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <span>Work item(s) selected for export.</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="Grid" class="reqif-export-grid" style="height: 350px; width: 100%;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="lic-trial-notification" style="display:none;">
+                        <span style="color:#FF0000;">
+                            <i style="font-size: smaller;">
+                                Only 30 records per transaction are allowed in trial version
+                            </i>
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top:10px;">
+
+                <div class="col-sm-6">
+                    <button id="exportReqIF" class="btn btn-info" onclick="javascript: validateMappingFile();">Export</button>
+
+                    <button id="removeCacheReqIF" title="This will clear the cache of current project" class="btn btn-light" onclick="javascript: onClearCache();">Clear Cache</button>
+
+
+                    @*<button id="closeReqIF" class="btn btn-light" onclick="javascript: onCloseDialog();">Cancel</button>*@
+                </div>
+                <div class="col-sm-6 text-right">
+                    <a href="#" id="expmappinglink" onclick="onViewMappingConfirmationOk();" oncontextmenu="return false;">
+                        Configure Mapping
+                    </a>
+                </div>
+
+
+            </div>
+            <div class="row" style="margin-top:5px;">
+                <div class="col-sm-12">
+                    <div id="result" style="line-height: 38px;">
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div id="export-confirmation-dialog"></div>
+        <div id="export-option-confirmation-dialog"></div>
+    </div>
+
+    <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailsModalLabel">Work Item Discrepancy Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="detailsModalContent" class="form-control" rows="15" readonly style="white-space: pre-wrap;"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,328 @@
+﻿.req-if-import .k-state-disabled {
+    opacity: 0.7;
+}
+
+.req-if-import-container {
+    width: 95%;
+    margin-top: 5px;
+}
+.req-if-import-buttons-row {
+    display: flex;
+}
+
+.req-if-import-reset-button-container {
+    float: right;
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.req-if-import-req-if-button-container {
+    float: right;
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.req-if-import-buttons-row {
+    margin-top: 50px;
+}
+
+.req-if-import-file-input-container {
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.req-if-import-import-mapping-file-button-container {
+    padding-left: 1px;
+    padding-right: 1px;
+    margin-right: 1px;
+}
+
+.req-if-import-export-mapping-file-container {
+    margin-right: 1px;
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.req-if-import-donwload-mapping-file-container {
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+.req-if-import-file-input-container .k-dropzone,
+.req-if-import-file-input-container .k-action-buttons,
+.req-if-import-file-input-container .k-file-size,
+.req-if-import-file-input-container .k-file-group-wrapper {
+    display: none;
+}
+
+.req-if-import-file-input-container .k-file{
+    padding:0;
+}
+
+.req-if-import-file-input-container .k-widget.k-upload,
+.req-if-import-file-input-container .k-upload-files {
+    border: none;
+}
+
+.req-if-import-file-input-container button[aria-label='Remove'] {
+    color: red;
+    opacity: 1;
+}
+
+.req-if-import-file-input-container .k-upload-status {
+    top: 11px;
+    opacity: 1;
+}
+
+.req-if-import-file-input-container .k-file-name-size-wrapper {
+    max-width: calc(100% - 24px - 1em);
+}
+
+
+.req-if-import-upload-mapping-file-label, .req-if-import-import-reqif-file-label {
+    width: 12.3%;
+    padding-right: 0;
+}
+
+.req-if-import-table ,
+.req-if-import-table tr, 
+.req-if-import-table th, 
+.req-if-import-table td {
+    border: 0!important;
+}
+
+
+.req-if-import-table th a {
+    font-size: 16px;
+    color: gray!important;
+
+}
+
+
+.req-if-import-table .k-grid-filter {
+    display: none;
+}
+
+.req-if-import-table .k-grid-header, 
+.req-if-import-table .k-header {
+   background-color: #fff;
+   border-bottom-style: none;
+}
+
+.req-if-import-table .k-grid-header-wrap {
+    border-width: 0;
+}
+
+.req-if-import-table .k-switch {
+    width: 5.714286em;
+    font-size: 10px;
+}
+
+.req-if-import-table .k-switch.k-widget {
+    box-shadow: none;
+}
+
+
+.req-if-import-table .k-switch-container {
+    background-color: #40a3f1;
+    box-shadow: none;
+}
+
+
+.req-if-import-table .k-switch-on:focus .k-switch-container,
+.req-if-import-table .k-switch-on:hover .k-switch-container {
+    border-color: #ccc;
+    color: #fff;
+    background-color: #40a3f1;
+}
+
+.req-if-import-table .k-switch-off .k-switch-container {
+    border-color: #ccc;
+    color: #333;
+    background-color: #ccc;
+}
+
+.req-if-import-table-collapse-all,
+.req-if-import-table-expand-all {
+    margin-top: 10px !important;
+    /* zoom: 0.5;*/
+    width: 20px;
+}
+
+    .req-if-import-table-collapse-all{
+        margin-left: 2px !important;
+    }
+
+
+
+    .k-i-minus, .k-i-plus {
+        color: #787878 !important;
+    }
+
+.req-if-import-dialog-msg-box {
+    min-width: 300px;
+}
+
+.req-if-import-save-mapping-file-name-input 
+{
+    width: 450px !important;
+}
+.k-grid tr:hover {
+    background-color: #eff6fc;
+    background-image: none;
+    background-image: none,-webkit-gradient(linear,left top,left bottom,from(#eff6fc),to(#eff6fc));
+    background-image: none,-webkit-linear-gradient(top,#eff6fc,#eff6fc 100%);
+    background-image: none,linear-gradient(to bottom,#eff6fc,#eff6fc 100%);
+    background-position: 50% 50%;
+    color: #000 !important;
+    cursor: pointer;
+}
+
+.k-alt {
+    background-color: white;
+}
+
+#req-if-import-container .k-grid table {
+    font-family: "Segoe UI VSS (Regular)","Segoe UI","-apple-system",BlinkMacSystemFont,Roboto,"Helvetica Neue",Helvetica,Ubuntu,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 13px;
+}
+
+
+.k-upload-button, .k-upload-button:hover, .k-upload-button:focus {
+    background-image: none; /*url(textures/highlight.png);*/
+    background-image: none,-webkit-gradient(linear,left top,left bottom,from(#0078d4),to(#0078d4));
+    background-image: none,-webkit-linear-gradient(top,#0078d4 0,#0078d4 100%);
+    background-image: none,linear-gradient(to bottom,#0078d4 0,#0078d4 100%);
+    border: 1px solid #eee;
+    color: white;
+    padding: 5px 10px;
+    font-size: 14px !important;
+}
+
+.k-upload {
+    border-color: white;
+}
+
+.k-primary, .k-primary:hover, .k-primary:focus {
+    color: #000;
+    border-color: #dbdbdb;
+    background-color: #fff;
+    background-image: none;
+    background-position: 50% 50%;
+    background-color: white !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.btn-info {
+    color: #fff;
+    background-color: #0078d4 !important;
+    border-color: #0078d4 !important;
+    border-radius: 0;
+    margin-right: 2px;
+    padding: 0.375rem 0.75rem;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-left: 2px;
+}
+
+    .btn-info:hover {
+        background: #005ba1 !important;
+        border-color: #005ba1 !important;
+    }
+
+.btn-light {
+    color: #000;
+    background-color: #f4f4f4;
+    border-color: #f4f4f4;
+    border-radius: 0;
+    margin-left: 2px;
+    padding: 0.375rem 0.75rem;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-right: 2px;
+}
+
+    .btn-light:hover {
+        background-color: #ddd !important;
+        border-color: #ddd !important;
+    }
+
+
+
+.k-dialog-buttongroup .k-button:hover {
+    color: #fff;
+    background: #005ba1 !important;
+    border-color: #005ba1 !important;
+}
+
+.k-i-arrow-60-down {
+    top: 5px !important;
+}
+
+    .k-i-arrow-60-down:hover {
+        color: #787878 !important;
+    }
+
+.k-select {
+    background-color: #fff;
+    background-image: none;
+    background-image: none,-webkit-gradient(linear,left top,left bottom,from(#fff),to(#fff));
+    background-image: none,-webkit-linear-gradient(top,#fff,#fff 100%);
+    background-image: none,linear-gradient(to bottom,#fff,#fff 100%);
+    background-position: 50% 50%;
+    color: #000 !important;
+    cursor: pointer;
+}
+
+
+
+
+.req-if-import-ado-column-combobox-container .k-button {
+    background-color: #fff;
+    background-image: none;
+    background-image: none,-webkit-gradient(linear,left top,left bottom,from(#fff),to(#fff));
+    background-image: none,-webkit-linear-gradient(top,#fff,#fff 100%);
+    background-image: none,linear-gradient(to bottom,#fff,#fff 100%);
+    background-position: 50% 50%;
+    color: #000 !important;
+    cursor: pointer;
+    border-color: #dbdbdb !important;
+}
+
+
+
+.k-state-selected {
+    background-color: #eff6fc !important;
+    background-image: none;
+    background-image: none,-webkit-gradient(linear,left top,left bottom,from(#eff6fc),to(#eff6fc));
+    background-image: none,-webkit-linear-gradient(top,#eff6fc,#eff6fc 100%);
+    background-image: none,linear-gradient(to bottom,#eff6fc,#eff6fc 100%);
+    background-position: 50% 50%;
+    color: #000 !important;
+}
+.k-dropdown-wrap.k-state-hover {
+    background-image: none !important;
+   
+    background-color: #eff6fc !important;
+
+    box-shadow: inset 0 0 0 0 #fff !important;
+    background-image: none,-webkit-gradient(linear,left top,left bottom,from(#eff6fc),to(#eff6fc));
+    background-image: none,-webkit-linear-gradient(top,#eff6fc,#eff6fc 100%);
+    background-image: none,linear-gradient(to bottom,#eff6fc,#eff6fc 100%);
+}
+.k-dropdown-wrap.k-state-focused {
+    background-image: none !important;
+    background-color: #eff6fc !important;
+
+    box-shadow: inset 0 0 0 0 #fff !important;
+    background-image: none,-webkit-gradient(linear,left top,left bottom,from(#eff6fc),to(#eff6fc));
+    background-image: none,-webkit-linear-gradient(top,#eff6fc,#eff6fc 100%);
+    background-image: none,linear-gradient(to bottom,#eff6fc,#eff6fc 100%);
+}
+
+.req-if-import-toggle-readonly {
+    opacity: 0.5;
+    background-color: #eee;
+    pointer-events: none;
+}

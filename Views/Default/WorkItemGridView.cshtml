@@ -1,0 +1,31 @@
+﻿@using Kendo.Mvc.UI
+@model IEnumerable<ReqIFBridge.Models.WorkItemInfo>
+@{
+    Layout = null;
+}
+
+@(Html.Kendo().Grid(Model)
+          .Name("Grid")
+          .Columns(columns =>
+          {
+              columns.Bound(p => p.ID).Title("ID").Width(70);
+              columns.Bound(p => p.WorkItemType).Title("WorkItem Type").Width(130);
+              columns.Bound(p => p.Title).ClientTemplate("<div style='display: flex; align-items: center;'><img src='#= IconUrl #' alt='Icon' style='width: 17px; height: 17px; margin-right: 10px;' /><span style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 550px;'>#:Title#</span></div>").Title("Title").Width(530);
+              columns.Bound(p => p.AssignedTo).Title("Assigned To").Width(140);
+              columns.Bound(p => p.State).Title("State").ClientTemplate("<div style='display: flex; align-items: center;'><div style='border-radius: 50%; margin-top: 7px; margin-bottom: 7px; margin-right: 6px; width: 8px; height: 8px; min-width: 8px; background-color: \\##=Statecolor #;'></div><span>#: State #</span></div>").Width(90);
+          })
+          .HtmlAttributes(new { style = "height: 380px; width: 100%; float: left; overflow: hidden;" })
+          .Pageable( pageable => pageable
+              .Input(true)
+              .Numeric(false)
+
+          )
+          .Sortable()
+          .Scrollable(scr => scr.Height(375))
+          .Filterable()
+          .DataSource(dataSource => dataSource
+          .Ajax()
+          .PageSize(10)
+          .ServerOperation(false)
+          .Sort(sort => sort.Add(p => p.WorkItemType))
+      ))

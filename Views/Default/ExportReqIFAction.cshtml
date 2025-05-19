@@ -1,0 +1,142 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ExportReqIF</title>
+    @*<script src="~/Scripts/jQuery/jquery-3.4.1.min.js"></script>*@
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/vsssdk")
+    <script src="~/Scripts/JSUtility.js"></script>
+    <script>
+        VSS.init({
+            usePlatformScripts: true,
+            usePlatformStyles: true
+        });
+
+        function isEmptyGuid(str) {
+            return str === "00000000-0000-0000-0000-000000000000";
+        }
+
+        // Use an IIFE to create an object that satisfies the IContributedMenuSource contract
+        var menuContributionHandler = (function() {
+
+            "use strict";
+            return {
+                // This is a callback that gets invoked when a user clicks the newly contributed button item
+                // The actionContext parameter contains context data surrounding the circumstances of this
+                // action getting invoked.
+                execute: function(actionContext) {
+
+
+                    if (actionContext.workItemIds && actionContext.workItemIds.length <= 0) {
+                        JSUtility.showVstsMessageDialog("Error", "This operation cannot be performed because no work item exist.");
+                        return;
+                    }
+
+                    if (actionContext.query) {
+                        if (!actionContext.query.path && actionContext.query.name && actionContext.query.name === "Recycle Bin") {
+                            JSUtility.showVstsMessageDialog("Error", "This operation cannot be performed on deleted work items.");
+                            return;
+                        }
+                    }
+
+
+                    VSS.getService(VSS.ServiceIds.Dialog).then(function(dialogService) {
+                        var extensionCtx = VSS.getExtensionContext();
+                        // Build absolute contribution ID for dialogContent
+                        var contributionId = extensionCtx.publisherId + "." + extensionCtx.extensionId + ".dialog-ReqIFBridge-ReqIF-Export";
+
+                        // Show dialog
+                        var dialogOptions = {
+                            title: "ReqIF Export",
+                            width: 1200,
+                            height: 570,
+                            resizable: false,
+                            buttons: null
+                            //okText: "Export",
+                            //getDialogResult: function() {
+                            //    return;
+                            //},
+                            //okCallback: function (result) {
+                            //    // Log the result to the console
+                            //    console.log('Export Clicked');
+                            //}
+                        };
+                        var workItemIds = [];
+                       /* console.log(actionContext.workItemIds);*/
+                        if (actionContext) {
+                            if (actionContext.ids) {
+                                workItemIds.push(actionContext.workItemIds);
+                            } else if (actionContext.team) {
+                                workItemIds.push(actionContext.workItemIds);
+                            }
+                            else if (actionContext.queryText) {
+                                workItemIds = [];
+                                var wiql = actionContext.query.id;
+
+                                if (isEmptyGuid(wiql)) {
+                                    wiql = actionContext.query.wiql;
+                                }
+                            } else {
+                                workItemIds = [];
+                            }
+                        } else {
+                            JSUtility.showVstsMessageDialog("Error", "This operation cannot be performed because no work item exist.");
+                            return;
+                        }
+
+                        sessionStorage.setItem('reqIFBridge-ReqIFExport-WorkItemIDs', workItemIds);
+                        sessionStorage.setItem('reqIFBridge-ReqIFExport-Wiql', wiql);
+                        sessionStorage.setItem("reqIFBridge-ReqIFExport-Action-Dialog-Close", "false");
+                        @*sessionStorage.setItem("ig-vsts-compareWorkItem-compareWiSubHubId", "@ViewBag.CompareWiSubHubId");
+                            sessionStorage.setItem('ig-vsts-compareWorkItem-extensionPointIdentification', "@ViewBag.ExtensionPointIdentification");
+                            sessionStorage.setItem("ig-vsts-compareWorkItem-loginDialogId", "@ViewBag.loginDialogContributerId");*@
+
+                        dialogService.openDialog(contributionId, dialogOptions).then(function(dialog) {
+                            //dialog.updateOkButton(true);
+
+                            var intervalId = setInterval(function() {
+                                var closeDialog = sessionStorage.getItem("reqIFBridge-ReqIFExport-Action-Dialog-Close");
+                                var sendRequest = sessionStorage.getItem("reqIFBridge-ReqIFExport-Action-Dialog-InProgress");
+                                if (sendRequest === "true") {
+                                    if ($.isFunction(dialog.showBusyOverlay)) {
+                                        dialog.showBusyOverlay();
+                                    }
+                                } else {
+                                    if ($.isFunction(dialog.hideBusyOverlay)) {
+                                        dialog.hideBusyOverlay();
+                                    }
+                                }
+
+                                if (closeDialog === "true") {
+                                    dialog.close();
+                                    sessionStorage.removeItem("reqIFBridge-ReqIFExport-Action-Dialog-Close");
+                                    sessionStorage.removeItem("reqIFBridge-ReqIFExport-Action-Dialog-InProgress");
+                                    clearInterval(intervalId);
+                                }
+
+                            }, 200);
+
+                        });
+                    });
+                }
+            };
+        }());
+
+        // Associate the menuContributionHandler object with the "btnSmartReport" button contribution from the manifest.
+        VSS.register("button-ReqIFBridge-ReqIF-Export", menuContributionHandler);
+    </script>
+</head>
+<body>
+    <div> 
+    </div>
+</body>
+</html>

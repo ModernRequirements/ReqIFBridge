@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<ReqIFMappingTemplate xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <TemplateName>basic</TemplateName>
+  <TemplateVersion>0.1.0</TemplateVersion>
+  <TypeMaps>
+    <TypeMap>
+      <WITypeName>Folder</WITypeName>
+      <ReqIFTypeName>Folder</ReqIFTypeName>
+      <EnumFieldMaps>
+        <EnumFieldMap>
+          <WIFieldName>System.Description</WIFieldName>
+          <ReqIFFieldName>description</ReqIFFieldName>
+          <FieldType>RichText</FieldType>
+          <ReqIFFieldType>RichText</ReqIFFieldType>
+        </EnumFieldMap>
+        <EnumFieldMap>
+          <WIFieldName>System.Title</WIFieldName>
+          <ReqIFFieldName>name</ReqIFFieldName>
+          <FieldType>String</FieldType>
+          <ReqIFFieldType>String</ReqIFFieldType>
+        </EnumFieldMap>
+      </EnumFieldMaps>
+    </TypeMap>
+    <TypeMap>
+      <WITypeName>D1 Device Requirement</WITypeName>
+      <ReqIFTypeName>D1 Device Requirement</ReqIFTypeName>
+      <EnumFieldMaps>
+        <EnumFieldMap>
+          <WIFieldName>System.Description</WIFieldName>
+          <ReqIFFieldName>description</ReqIFFieldName>
+          <FieldType>RichText</FieldType>
+          <ReqIFFieldType>RichText</ReqIFFieldType>
+        </EnumFieldMap>
+        <EnumFieldMap>
+          <WIFieldName>System.Title</WIFieldName>
+          <ReqIFFieldName>name</ReqIFFieldName>
+          <FieldType>String</FieldType>
+          <ReqIFFieldType>String</ReqIFFieldType>
+        </EnumFieldMap>
+      </EnumFieldMaps>
+    </TypeMap>
+    <TypeMap>
+      <WITypeName>Epic</WITypeName>
+      <ReqIFTypeName>Epic</ReqIFTypeName>
+      <EnumFieldMaps>
+        <EnumFieldMap>
+          <WIFieldName>System.Title</WIFieldName>
+          <ReqIFFieldName>System.Title</ReqIFFieldName>
+          <FieldType>String</FieldType>
+          <ReqIFFieldType>String</ReqIFFieldType>
+        </EnumFieldMap>
+      </EnumFieldMaps>
+    </TypeMap>
+  </TypeMaps>
+</ReqIFMappingTemplate>

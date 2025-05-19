@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<ReqIFMappingTemplate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TemplateName>basic</TemplateName>
+  <TemplateVersion>0.1.0</TemplateVersion>
+  <TypeMaps>
+    <TypeMap>
+      <WITypeName>User Story</WITypeName>
+      <ReqIFTypeName>User Story</ReqIFTypeName>
+      <EnumFieldMaps>
+        <EnumFieldMap>
+          <WIFieldName>System.Title</WIFieldName>
+          <ReqIFFieldName>System.Title</ReqIFFieldName>
+          <FieldType>String</FieldType>
+          <ReqIFFieldType>String</ReqIFFieldType>
+        </EnumFieldMap>
+        <EnumFieldMap>
+          <WIFieldName>Microsoft.VSTS.Scheduling.StoryPoints</WIFieldName>
+          <ReqIFFieldName>Microsoft.VSTS.Scheduling.StoryPoints</ReqIFFieldName>
+          <FieldType>Numeric</FieldType>
+          <ReqIFFieldType>Numeric</ReqIFFieldType>
+        </EnumFieldMap>
+      </EnumFieldMaps>
+    </TypeMap>
+  </TypeMaps>
+  <LinkMaps>
+    <LinkMap>
+      <WILinkName>Parent</WILinkName>
+      <ReqIFRelationName>Parent</ReqIFRelationName>
+    </LinkMap>
+  </LinkMaps>
+</ReqIFMappingTemplate>

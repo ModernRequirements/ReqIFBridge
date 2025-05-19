@@ -1,0 +1,93 @@
+﻿@using System.Configuration
+@{
+    ViewBag.Title = "ReqIF Import";
+    var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+    var currentProjectMapping = jss.Serialize(ViewBag.MappingJSON);
+    var workItemTypeFieldsData = jss.Serialize(ViewBag.WorkItemTypeFieldsData);
+    var workitemtypes = jss.Serialize(ViewBag.WorkItemTypes);
+    var alllinktypes = jss.Serialize(ViewBag.AllLinksTypes);
+
+    Layout = null;
+}
+<head>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/Kendo/KendoScripts")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Kendo/bundleKendoStyle")
+
+    <script>
+        var serverUrl = '@Request.Url.Scheme://@Request.Url.Authority';
+    </script>
+    <script src="~/Scripts/jQuery/jquery.fileDownload.min.js"></script>
+    <script src="~/Scripts/reqIFImport.js"></script>
+    <script src="~/Scripts/ConfirmationModalPlugins.js"></script>
+
+
+    <script>
+    var projectMappingtemplate = JSON.parse('@Html.Raw(currentProjectMapping)');
+    var workitemfieldDataCollection = JSON.parse('@Html.Raw(workItemTypeFieldsData)');
+    var projectWorkitemtypes = JSON.parse('@Html.Raw(workitemtypes)');
+    var projectAlllinkstypes = JSON.parse('@Html.Raw(alllinktypes)');
+    var currentProjectGuid = '@ViewBag.ProjectGuid';
+    var _adoParams = '@ViewBag.AdoParams';
+    var toggleConfigStr = '@ConfigurationManager.AppSettings.Get("Plugin.Toggle")';
+    var toggleConfig = (toggleConfigStr === 'true');
+    var enumValueConfigStr = '@ConfigurationManager.AppSettings.Get("Plugin.EnumValueForImport")';
+    var enumValueConfig = (enumValueConfigStr === 'true');
+    var duplicateLongName = '@(ViewBag.DuplicateLongName != null ? string.Join(",", (List<string>)ViewBag.DuplicateLongName) : "")';
+    </script>
+
+
+    <script src="~/Scripts/Default/ReqIFImportMain.js"></script>
+    <link rel="stylesheet" href="~/Content/reqIFImport.css" />
+    <link rel="stylesheet" href="~/Content/reqIF-style.css" />
+
+
+</head>
+
+<div class="container" style="margin-left: 15px; margin-right: 0; max-width: none; overflow-x: hidden; border: 0.5px solid #ddd;" id="req-if-import-container-main">
+
+    <h5 style="padding-bottom: 5px; padding-top: 10px;">
+        <span> ReqIF Import Mapping UI</span>
+        <span style="font-size: 12px; font-style: italic; font-weight: normal;">@ViewBag.FileName</span>
+        
+
+    </h5>
+
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="req-if-duplicate-errormessage">
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="req-if-import-container">
+
+            </div>
+
+        </div>
+    </div>
+    <div class="row" style="margin-top:22px;">
+        <div class="col-sm-12">
+            <div id="req-if-import-button-container" style="width: 95%; margin-top: 5px;">
+
+            </div>
+
+        </div>
+    </div>
+    <div id="lic-status-viewid" data-viewname='@ViewBag.CallingViewId'>
+
+
+    </div>
+
+    <div id="import-plugin-confirmation-dialog"></div>
+
+</div>

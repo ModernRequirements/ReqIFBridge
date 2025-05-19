@@ -1,0 +1,249 @@
+﻿@using Kendo.Mvc.UI
+<html>
+<head>
+    <style>
+        #licenseModalInfo .modal-header {
+            display: block;
+            padding: 1rem 1rem;
+            border-bottom: 1px solid #dee2e6;
+            border-top-left-radius: calc(.3rem - 1px);
+            border-top-right-radius: calc(.3rem - 1px);
+        }
+    </style>
+</head>
+<body>
+    <div id="LicenseStatusDiv">
+
+        @*Product Backlog Item 32471: Start*@
+        <div class="row">
+            <div class="col-sm-12 text-right">
+                <span class="">
+                    <img src="../../Content/Icons/icon-help.png" style="margin-top: -5px;"> &nbsp;<a href="https://www.modernrequirements.com/help/ReqIF4DevOps/" target="_blank" style="margin-left: -6px!important;/* margin-top: -66px !important; */">Help</a>
+                </span>
+
+            </div>
+        </div>
+        @*Product Backlog Item 32471: End*@
+
+        <div class="row">
+            <div class="col-sm-10 text-left" id="non_flat">
+
+            </div>
+            <div class="col-sm-2 text-right">
+
+                <a href="#" id="open-lic-dialog">License status</a>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <div id="reqIFBridge-ReqIFExport-LicenseDiv" class ="reqIF-LicenseDiv">
+
+        <div class="row">
+            <div class="col-sm-12">
+
+                <div id="lic-msg" class="alert alert-warning" style="padding-left: 0.5rem !important;">
+                    Your product is not activated.
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <hr style="background: #ddd; border: 0; height: 1px; text-align: left;" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <span>
+                    Enter your license code below:
+                </span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <input type="text" id="txtLicKey" style="width: 350px;height: 30px;margin-top: 10px;max-width: 350px;/* top: 250px; */" @*onkeypress="ontxtLicKeyKeyPress(event)*@">
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-info" id="btnActivate" value="Activate" onclick="onActivateClick();" style="width: 100px;">Activate</button>
+                <button type="button" class="btn btn-info" id="btnGenerateRequestFile" value="Generate_Request_File" onclick="onGenerateRequestFileClick();" style="width:180px;display:none;">Generate Request File</button>
+                <button type="button" class="btn btn-light" id="btnTrial" value="Trial" onclick="onTrialClick();" style="width:100px;">Start Trial</button>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="lic-offline-reqest-area">
+
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <hr style="background: #ddd; border: 0; height: 1px; text-align: left;" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <span>
+                                If your machine cannot connect to the Internet, Select <b>Activate Offline</b> option below:
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <input id="lic-chkOfflineActivation" value="Activate Offline" type="checkbox" style="/* margin-left: -4px; */margin-top: 15px;/* vertical-align: bottom; */width: 20px;height: 15px;" onclick="onChkOfflineActivationClick(event)">
+                            <label>Activate Offline</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="lic-offline-response-area" class="lic-activation-page-table">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <span>
+                                Follow the below steps to activate product offline:
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 7px;">
+                        <div class="col-sm-12">
+                            <span>
+
+                                1. Enter your license key and click on <b>Generate Request File</b> button.
+
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 3px;">
+                        <div class="col-sm-12">
+                            <span>
+
+                                2. A file will be downloaded, send the file to the email address: <a href="mailto:support@modernrequirements.com" target="_top">mailto:support@modernrequirements.com</a>
+
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 3px;">
+                        <div class="col-sm-12">
+                            <span>
+
+                                3. A Reponse file will be sent back on email, kindly save that file on system and click on <b>Apply License File</b> button.
+
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 3px;">
+                        <div class="col-sm-12">
+                            <span>
+
+                                4. Select and upload the saved file.
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 7px;">
+                        <div class="col-sm-12">
+                            <div class="lic-upload-button">
+                                @(Html.Kendo().Upload()
+                              .Name("lic-fileUploader")
+                              .Multiple(false)
+                             .HtmlAttributes(new { accept = ".bin", placeholder = "", required = "required", validationmessage = "Please select file to upload" })
+                              .Messages(m => m.Select("Apply License File"))
+                              .Async(a => a
+                                  .Save("UploadResponseFile", "License")
+                                  .AutoUpload(true)
+                                  .SaveField("file"))
+                              .Messages(msg => msg
+                                  .StatusUploaded("Response Status Goes Here?")
+                                  .StatusFailed("statusFailed")
+                                  .StatusUploading("Applying License File"))
+                              .Events(events => events
+                                  .Error("onUploadFileError")
+                                  .Success("onUploadFileAfterUploading")
+                                  .Upload("onUploadFileBeforeUploading")
+                                  //.Complete("onUploadFileComplete")
+                                  .Progress("onUploadFileProgress")
+                              )
+                    )
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="licenseModalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title">ReqIF4DevOps</h5>
+                    <span class="modal-title"><i style="font-size: smaller;">Build Version: @ViewBag.AssemblyVersion </i> </span>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <h5 class="col modal-title" style="padding-bottom: 10px;margin-left: 8px;">License Status</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="lic-clear-msg" class="alert alert-success" style="display:none;    padding-left: 0.5rem !important;">
+                                Your License has been cleared. Please wait for a few seconds.
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="lic-status-div" style="margin-left: 8px;margin-bottom: 8px">
+                        <div class="row" style="margin-bottom: 5px;">
+                            <div class="col-sm-12" id="lic-prod-div">
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-bottom: 5px;">
+                            <div class="col-sm-12" id="lic-type-div">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12" id="lic-status-type-div">
+
+
+                            </div>
+                        </div>
+                    </div>
+                        <div class="modal-footer" id="lic-status-viewid" data-viewname='@ViewBag.CallingViewId'>
+                            <button type="button" class="btn btn-info" id="lic-cancel-btn" onclick="onBtnClearLicense ();" style="width: auto; display:none;">
+                                Clear License
+                            </button>
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

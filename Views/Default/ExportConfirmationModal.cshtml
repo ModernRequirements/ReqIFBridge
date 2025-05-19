@@ -1,0 +1,341 @@
+﻿@{
+    string parentContainer = ViewBag.ControlId;
+    string confirmDialogWindow = "confirm-export-dialog-window-" + ViewBag.ControlId;
+    string confirmDialogTitleText = "confirm-export-dialog-titletext-" + ViewBag.ControlId;
+    string confirmDialogMsgText = "confirm-export-dialog-textmsg-" + ViewBag.ControlId;
+    string dialogOkButtonName = "confirm-export-dialog-ok-button-" + ViewBag.ControlId;
+    string dialogCancelButtonName = "confirm-export-dialog-no-button-" + ViewBag.ControlId;
+    string confirmdialoginput = "confirm-export-dialog-input-" + ViewBag.ControlId;
+    string confirmdialogdropdown = "confirm-export-dialog-dropdown-" + ViewBag.ControlId;
+    string reqIfFileNameInput = "reqif-file-name-input-" + ViewBag.ControlId;
+    string exportTypeDropdown = "export-type-dropdown-" + ViewBag.ControlId;
+    string exchangeIdDropdown = "exchange-id-dropdown-" + ViewBag.ControlId;
+}
+<div id="@parentContainer">
+
+    <!-- Modal -->
+    <div class="modal fade" id=@confirmDialogWindow data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id=@confirmDialogTitleText></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id=@confirmDialogMsgText></p>
+
+                    <!-- Export Type Selection -->
+                    <div class="form-group">
+                        <label for="@exportTypeDropdown">Export Type</label>
+                        <select class="form-control" id="@exportTypeDropdown" onchange="onExportTypeChange(this)">
+                            <option value="newExport" selected>Generate New Export</option>
+                            <option value="useRoundTrip">Use RoundTrip</option>
+                        </select>
+                    </div>
+
+                    <!-- ReqIF File Name Field - Shown for New Export -->
+                    <div class="form-group" id="reqIfFileNameGroup">
+                        <label for="@reqIfFileNameInput">ReqIF File Name</label>
+                        <input type="text" class="form-control" id="@reqIfFileNameInput" placeholder="Enter ReqIF file name">
+                    </div>
+
+                    <!-- Exchange ID Dropdown - Shown for RoundTrip -->
+                    <div class="form-group" id="exchangeIdGroup" style="display: none;">
+                        <label for="@exchangeIdDropdown">Select Exchange ID</label>
+                        <select class="form-control" id="@exchangeIdDropdown">
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+
+                    <!-- Specification Title Field -->
+                    <div class="form-group">
+                        <label for="specificationTitle">Specification Title</label>
+                        <input type="text" class="form-control" id=@confirmdialoginput placeholder="Enter Specification Title">
+                    </div>
+
+                    <!-- Exporting Tool Dropdown -->
+                    <div class="form-group">
+                        <label for="exportType">Exporting Tool</label>
+                        <select class="form-control" id=@confirmdialogdropdown>
+                            <option value="Azure Devops" selected>Azure Devops</option>
+                            <option value="Jama Connect">Jama Connect</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div style="font-size:small;">
+                        <button type="button" class="btn btn-info" id=@dialogOkButtonName onclick="onConfirmationDialogOkButtonClick(this)" data-parentcontainerid=@parentContainer>Proceed</button>
+                        <button type="button"
+                                class="btn btn-light"
+                                id="@dialogCancelButtonName"
+                                data-dismiss="modal"
+                                data-parentcontainerid="@parentContainer">
+                            Cancel
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Modal width */
+        .modal-lg {
+            max-width: 520px;
+            width: 95%;
+        }
+
+        /* Form control styles */
+        .form-control {
+            width: 100%;
+            max-width: 480px; /* Slightly less than modal width to maintain margins */
+            font-size: 13px; /* Smaller font size for textboxes and dropdowns */
+        }
+
+        /* Form group spacing and alignment */
+        .form-group {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+            /* Labels */
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: 500;
+            }
+
+        /* Dropdowns specific styling */
+        select.form-control {
+            height: 38px; /* Consistent height for dropdowns */
+        }
+
+        /* Input fields specific styling */
+        input.form-control {
+            height: 38px; /* Consistent height for inputs */
+        }
+
+        /* Modal body padding */
+        .modal-body {
+            padding: 20px;
+        }
+
+        /* Modal footer alignment */
+        .modal-footer {
+            justify-content: flex-end;
+            padding: 15px 20px;
+        }
+    </style>
+
+
+</div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    // Remove the hidden.bs.modal handler that resets fields
+    $('#@confirmDialogWindow').on('shown.bs.modal', function () {
+        // Reset fields when modal is opened
+        resetModalFields();
+    });
+
+    // Remove the reset from hidden.bs.modal event
+    $('#@confirmDialogWindow').on('hidden.bs.modal', function () {
+        // Do not reset fields on hide, just handle cleanup if needed
+        if (typeof window.onConfirmationDialogCancelButtonClick === 'function') {
+            window.onConfirmationDialogCancelButtonClick(this);
+        }
+    });
+
+    // Modify cancel button handler to not reset fields
+    $('#@dialogCancelButtonName').on('click', function() {
+        var modal = $('#@confirmDialogWindow');
+        var parentContainerId = $(this).data('parentcontainerid');
+
+        // Hide modal without resetting fields
+        modal.modal('hide');
+
+        // Clear result area
+        $('#result').removeClass('alert alert-success alert-warning alert-danger').html('');
+
+        // If the parent plugin has a cancel handler, call it
+        if (typeof window.onConfirmationDialogCancelButtonClick === 'function') {
+            window.onConfirmationDialogCancelButtonClick(this);
+        }
+    });
+});
+
+// Also modify the close button handler
+document.querySelector('#@confirmDialogWindow .close').onclick = function() {
+    // Don't reset fields on close
+    $('#@confirmDialogWindow').modal('hide');
+};
+
+
+    function resetModalFields() {
+        // Reset Export Type dropdown to default
+        var exportTypeDropdown = document.getElementById('@exportTypeDropdown');
+        exportTypeDropdown.value = "newExport";
+
+        // Clear ReqIF File Name input
+        var reqIfFileNameInput = document.getElementById('@reqIfFileNameInput');
+        reqIfFileNameInput.value = "";
+
+        // Clear Exchange ID dropdown
+        var exchangeIdDropdown = document.getElementById('@exchangeIdDropdown');
+        exchangeIdDropdown.innerHTML = "";
+
+        // Clear Specification Title input
+        var specTitleInput = document.getElementById('@confirmdialoginput');
+        specTitleInput.value = "";
+
+        // Reset Exporting Tool dropdown to default
+        var exportingToolDropdown = document.getElementById('@confirmdialogdropdown');
+        exportingToolDropdown.value = "Azure Devops";
+        exportingToolDropdown.disabled = false;
+
+        // Reset visibility states
+        var reqIfFileNameGroup = document.getElementById('reqIfFileNameGroup');
+        var exchangeIdGroup = document.getElementById('exchangeIdGroup');
+        var specTitleGroup = document.getElementById('@confirmdialoginput').parentElement;
+
+        reqIfFileNameGroup.style.display = 'block';
+        exchangeIdGroup.style.display = 'none';
+        specTitleGroup.style.display = 'block';
+
+        // Clear any session storage values
+        sessionStorage.removeItem('selectedExportType');
+        sessionStorage.removeItem('selectedExchangeId');
+        sessionStorage.removeItem('reqIfFileName');
+    }
+
+    function onExportTypeChange(selectElement) {
+        var reqIfFileNameGroup = document.getElementById('reqIfFileNameGroup');
+        var exchangeIdGroup = document.getElementById('exchangeIdGroup');
+        var exportingToolDropdown = document.getElementById('@confirmdialogdropdown');
+        var specTitleGroup = document.getElementById('@confirmdialoginput').parentElement;
+
+        if (selectElement.value === 'newExport') {
+            reqIfFileNameGroup.style.display = 'block';
+            exchangeIdGroup.style.display = 'none';
+            specTitleGroup.style.display = 'block';
+            exportingToolDropdown.value = "Azure Devops";
+            exportingToolDropdown.disabled = false;
+        } else {
+            reqIfFileNameGroup.style.display = 'block';
+            exchangeIdGroup.style.display = 'block';
+            specTitleGroup.style.display = 'none';
+            loadExchangeIds();
+            exportingToolDropdown.value = "Jama Connect";
+            exportingToolDropdown.disabled = true;
+        }
+    }
+
+ function loadExchangeIds() {
+    var projectId = VSS.getWebContext().project.id;
+
+    $.ajax({
+        url: serverUrl + '/Mongo/GetExchangeIdDetailsByProject',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ projectId: projectId }),
+        success: function (response) {
+            if (response.success) {
+                var documents = response.data;
+                var dropdown = document.getElementById('@exchangeIdDropdown');
+                dropdown.innerHTML = "";
+
+                // Populate the dropdown with ExchangeId values
+                documents.forEach(function (doc) {
+                    if (doc.ExchangeId) {
+                        var option = document.createElement('option');
+                        option.value = doc.ExchangeId;
+                        option.text = doc.ExchangeId;
+                        option.setAttribute('data-sourcefilename', doc.SourceFilename || "");
+                        option.setAttribute('data-bindinginfos', JSON.stringify(doc.ReqIFBindingInfos || {}));
+                        dropdown.appendChild(option);
+                    }
+                });
+
+                // Add change event listener
+                dropdown.addEventListener('change', function () {
+                    updateReqIfFileName(this);
+                });
+
+                // Handle initial selection
+                if (dropdown.options.length > 0) {
+                    // Select first option
+                    dropdown.selectedIndex = 0;
+                    // Update filename for initial selection
+                    updateReqIfFileName(dropdown);
+                }
+            } else {
+                console.error('Server error: ' + response.message);
+            }
+        },
+        error: function (error) {
+            console.error('Error loading exchange IDs:', error);
+        }
+    });
+}
+
+// Separate function to update ReqIF filename
+function updateReqIfFileName(dropdown) {
+    var selectedOption = dropdown.options[dropdown.selectedIndex];
+    if (selectedOption) {
+        var sourceFilename = selectedOption.getAttribute('data-sourcefilename');
+        var reqIfFileNameInput = document.getElementById('@reqIfFileNameInput');
+        reqIfFileNameInput.value = sourceFilename || "";
+    }
+}
+
+
+
+
+
+
+
+
+    // Modify the existing onclick handler for the Proceed button
+    document.getElementById('@dialogOkButtonName').onclick = function(event) {
+        if (!validateFields()) {
+            event.preventDefault();
+            return false;
+        }
+        // If validation passes, call the original click handler
+        onConfirmationDialogOkButtonClick(this);
+    };
+
+    function validateFields() {
+        var exportType = document.getElementById('@exportTypeDropdown').value;
+        var reqIfFileName = document.getElementById('@reqIfFileNameInput').value.trim();
+        var exchangeId = document.getElementById('@exchangeIdDropdown').value;
+
+        if (!reqIfFileName) {
+            alert('Please enter a ReqIF file name');
+            document.getElementById('@reqIfFileNameInput').focus();
+            return false;
+        }
+
+        if (exportType === 'useRoundTrip' && !exchangeId) {
+            alert('Please select an Exchange ID');
+            document.getElementById('@exchangeIdDropdown').focus();
+            return false;
+        }
+
+        return true;
+    }
+
+    // Handle modal close button
+    document.querySelector('#@confirmDialogWindow .close').onclick = function() {
+        resetModalFields();
+    };
+
+
+</script>
+
+
+
+
